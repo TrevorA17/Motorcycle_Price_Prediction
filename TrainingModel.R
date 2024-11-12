@@ -48,3 +48,13 @@ for (i in 1:boot_samples) {
 
 # Display results from a sample bootstrapped model
 print(boot_results[[1]])
+
+# K-Fold Cross-Validation with 5 folds
+train_control <- trainControl(method = "cv", number = 5)
+model_cv <- train(selling_price ~ km_driven + ex_showroom_price,
+                  data = train_data,
+                  method = "lm",
+                  trControl = train_control)
+
+# Summary of cross-validation results
+print(model_cv)
