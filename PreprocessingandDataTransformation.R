@@ -31,3 +31,17 @@ if (total_missing > 0) {
 } else {
   cat("No missing values found in the dataset.\n")
 }
+
+# Impute missing values in ex_showroom_price with the mean
+vehicle_data$ex_showroom_price[is.na(vehicle_data$ex_showroom_price)] <- mean(vehicle_data$ex_showroom_price, na.rm = TRUE)
+
+View(vehicle_data)
+
+# Remove the 'X' column from the dataset
+vehicle_data <- vehicle_data[, !(names(vehicle_data) %in% "X")]
+
+# Verify the column has been removed
+print(names(vehicle_data))
+
+View(vehicle_data)
+
