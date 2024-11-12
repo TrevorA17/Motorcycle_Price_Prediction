@@ -15,3 +15,99 @@ str(vehicle_data)
 # Display the first few rows to confirm data loading
 head(vehicle_data)
 View(vehicle_data)
+
+# Load necessary library for summary statistics
+library(dplyr)
+
+# Frequency of seller type
+seller_type_freq <- table(vehicle_data$seller_type)
+print(seller_type_freq)
+
+# Frequency of owner type
+owner_freq <- table(vehicle_data$owner)
+print(owner_freq)
+
+# Mean, median, and mode for numerical columns
+
+# Mean
+mean_year <- mean(vehicle_data$year, na.rm = TRUE)
+mean_km_driven <- mean(vehicle_data$km_driven, na.rm = TRUE)
+mean_ex_showroom_price <- mean(vehicle_data$ex_showroom_price, na.rm = TRUE)
+mean_selling_price <- mean(vehicle_data$selling_price, na.rm = TRUE)
+
+# Median
+median_year <- median(vehicle_data$year, na.rm = TRUE)
+median_km_driven <- median(vehicle_data$km_driven, na.rm = TRUE)
+median_ex_showroom_price <- median(vehicle_data$ex_showroom_price, na.rm = TRUE)
+median_selling_price <- median(vehicle_data$selling_price, na.rm = TRUE)
+
+# Mode function
+get_mode <- function(v) {
+  uniq_v <- unique(v)
+  uniq_v[which.max(tabulate(match(v, uniq_v)))]
+}
+
+mode_owner <- get_mode(vehicle_data$owner)
+mode_seller_type <- get_mode(vehicle_data$seller_type)
+
+print(list(
+  mean_year = mean_year, mean_km_driven = mean_km_driven,
+  mean_ex_showroom_price = mean_ex_showroom_price, mean_selling_price = mean_selling_price,
+  median_year = median_year, median_km_driven = median_km_driven,
+  median_ex_showroom_price = median_ex_showroom_price, median_selling_price = median_selling_price,
+  mode_owner = mode_owner, mode_seller_type = mode_seller_type
+))
+
+# Variance and standard deviation
+variance_km_driven <- var(vehicle_data$km_driven, na.rm = TRUE)
+sd_km_driven <- sd(vehicle_data$km_driven, na.rm = TRUE)
+
+variance_ex_showroom_price <- var(vehicle_data$ex_showroom_price, na.rm = TRUE)
+sd_ex_showroom_price <- sd(vehicle_data$ex_showroom_price, na.rm = TRUE)
+
+variance_selling_price <- var(vehicle_data$selling_price, na.rm = TRUE)
+sd_selling_price <- sd(vehicle_data$selling_price, na.rm = TRUE)
+
+# Range
+range_year <- range(vehicle_data$year, na.rm = TRUE)
+range_km_driven <- range(vehicle_data$km_driven, na.rm = TRUE)
+range_ex_showroom_price <- range(vehicle_data$ex_showroom_price, na.rm = TRUE)
+range_selling_price <- range(vehicle_data$selling_price, na.rm = TRUE)
+
+# Range
+range_year <- range(vehicle_data$year, na.rm = TRUE)
+range_km_driven <- range(vehicle_data$km_driven, na.rm = TRUE)
+range_ex_showroom_price <- range(vehicle_data$ex_showroom_price, na.rm = TRUE)
+range_selling_price <- range(vehicle_data$selling_price, na.rm = TRUE)
+
+# Quantiles
+quantiles_km_driven <- quantile(vehicle_data$km_driven, na.rm = TRUE)
+quantiles_ex_showroom_price <- quantile(vehicle_data$ex_showroom_price, na.rm = TRUE)
+quantiles_selling_price <- quantile(vehicle_data$selling_price, na.rm = TRUE)
+
+# Interquartile range (IQR)
+iqr_km_driven <- IQR(vehicle_data$km_driven, na.rm = TRUE)
+iqr_ex_showroom_price <- IQR(vehicle_data$ex_showroom_price, na.rm = TRUE)
+iqr_selling_price <- IQR(vehicle_data$selling_price, na.rm = TRUE)
+
+print(list(
+  variance_km_driven = variance_km_driven, sd_km_driven = sd_km_driven,
+  variance_ex_showroom_price = variance_ex_showroom_price, sd_ex_showroom_price = sd_ex_showroom_price,
+  variance_selling_price = variance_selling_price, sd_selling_price = sd_selling_price,
+  range_year = range_year, range_km_driven = range_km_driven,
+  range_ex_showroom_price = range_ex_showroom_price, range_selling_price = range_selling_price,
+  quantiles_km_driven = quantiles_km_driven, quantiles_ex_showroom_price = quantiles_ex_showroom_price,
+  quantiles_selling_price = quantiles_selling_price,
+  iqr_km_driven = iqr_km_driven, iqr_ex_showroom_price = iqr_ex_showroom_price,
+  iqr_selling_price = iqr_selling_price
+))
+
+# Correlation matrix for numerical variables
+cor_matrix <- cor(vehicle_data %>% select(year, km_driven, ex_showroom_price, selling_price), use = "complete.obs")
+print(cor_matrix)
+
+# Covariance matrix
+cov_matrix <- cov(vehicle_data %>% select(year, km_driven, ex_showroom_price, selling_price), use = "complete.obs")
+print(cov_matrix)
+
+
