@@ -58,3 +58,59 @@ model_cv <- train(selling_price ~ km_driven + ex_showroom_price,
 
 # Summary of cross-validation results
 print(model_cv)
+
+install.packages("caret")      # For training models
+install.packages("rpart")      # For decision tree
+install.packages("randomForest")  # For random forest
+
+library(caret)
+library(rpart)
+library(randomForest)
+
+# Train a Linear Regression model
+set.seed(123)
+linear_model <- train(selling_price ~ km_driven + ex_showroom_price,
+                      data = train_data,
+                      method = "lm")
+
+# Display summary of the Linear Regression model
+summary(linear_model$finalModel)
+
+# Train a Decision Tree model
+set.seed(123)
+decision_tree_model <- train(selling_price ~ km_driven + ex_showroom_price,
+                             data = train_data,
+                             method = "rpart")
+
+# Display the Decision Tree model
+print(decision_tree_model$finalModel)
+
+# Plot the decision tree
+plot(decision_tree_model$finalModel)
+text(decision_tree_model$finalModel, use.n = TRUE)
+
+# Train a Random Forest model
+set.seed(123)
+random_forest_model <- train(selling_price ~ km_driven + ex_showroom_price,
+                             data = train_data,
+                             method = "rf",
+                             tuneLength = 5)
+
+# Display the Random Forest model
+print(random_forest_model)
+
+# Make predictions on test data
+linear_preds <- predict(linear_model, test_data)
+decision_tree_preds <- predict(decision_tree_model, test_data)
+random_forest_preds <- predict(random_forest_model, test_data)
+
+# Calculate RMSE for each model
+linear_rmse <- RMSE(linear_preds, test_data$selling_price)
+decision_tree_rmse <- RMSE(decision_tree_preds, test_data$selling_price)
+random_forest_rmse <- RMSE(random_forest_preds, test_data$selling_price)
+
+# Print RMSE results
+cat("Linear Regression RMSE:", linear_rmse, "\n")
+cat("Decision Tree RMSE:", decision_tree_rmse, "\n")
+cat("Random Forest RMSE:", random_forest_rmse, "\n")
+
