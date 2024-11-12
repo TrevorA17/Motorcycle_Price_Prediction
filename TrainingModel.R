@@ -30,3 +30,21 @@ test_data <- vehicle_data[-train_index, ]
 # Check dimensions of the splits
 cat("Training set dimensions:", dim(train_data), "\n")
 cat("Testing set dimensions:", dim(test_data), "\n")
+
+# Bootstrapping with 100 samples
+boot_samples <- 100
+boot_results <- list()
+
+for (i in 1:boot_samples) {
+  # Resample the training data with replacement
+  boot_sample <- train_data[sample(1:nrow(train_data), replace = TRUE), ]
+  
+  # Fit a model to the bootstrap sample (e.g., linear regression)
+  boot_model <- lm(selling_price ~ km_driven + ex_showroom_price, data = boot_sample)
+  
+  # Store the model results
+  boot_results[[i]] <- summary(boot_model)$coefficients
+}
+
+# Display results from a sample bootstrapped model
+print(boot_results[[1]])
