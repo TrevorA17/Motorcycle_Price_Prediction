@@ -125,4 +125,54 @@ print(tukey_seller_type)
 tukey_owner <- TukeyHSD(anova_owner)
 print(tukey_owner)
 
+install.packages("ggplot2")
+library(ggplot2)
+
+# Histogram of selling prices
+ggplot(vehicle_data, aes(x = selling_price)) +
+  geom_histogram(binwidth = 10000, fill = "steelblue", color = "black") +
+  labs(title = "Distribution of Selling Prices", x = "Selling Price", y = "Frequency")
+
+# Bar plot for seller type
+ggplot(vehicle_data, aes(x = seller_type)) +
+  geom_bar(fill = "purple") +
+  labs(title = "Frequency of Seller Types", x = "Seller Type", y = "Count")
+
+# Bar plot for owner type
+ggplot(vehicle_data, aes(x = owner)) +
+  geom_bar(fill = "orange") +
+  labs(title = "Frequency of Ownership Types", x = "Owner Type", y = "Count")
+
+# Boxplot for kilometers driven
+ggplot(vehicle_data, aes(y = km_driven)) +
+  geom_boxplot(fill = "lightgreen") +
+  labs(title = "Boxplot of Kilometers Driven", y = "Kilometers Driven")
+
+# Scatter plot of kilometers driven vs selling price
+ggplot(vehicle_data, aes(x = km_driven, y = selling_price)) +
+  geom_point(color = "blue", alpha = 0.6) +
+  labs(title = "Selling Price vs Kilometers Driven", x = "Kilometers Driven", y = "Selling Price")
+
+# Boxplot of selling price by seller type
+ggplot(vehicle_data, aes(x = seller_type, y = selling_price)) +
+  geom_boxplot(fill = "salmon") +
+  labs(title = "Selling Price by Seller Type", x = "Seller Type", y = "Selling Price")
+
+# Boxplot of selling price by owner
+ggplot(vehicle_data, aes(x = owner, y = selling_price)) +
+  geom_boxplot(fill = "cyan") +
+  labs(title = "Selling Price by Ownership Type", x = "Owner Type", y = "Selling Price")
+
+# Faceted scatter plot of km driven vs selling price by seller type
+ggplot(vehicle_data, aes(x = km_driven, y = selling_price)) +
+  geom_point(alpha = 0.5) +
+  facet_wrap(~ seller_type) +
+  labs(title = "Selling Price vs Kilometers Driven by Seller Type", x = "Kilometers Driven", y = "Selling Price")
+
+install.packages("GGally")
+library(GGally)
+
+# Pairwise plot for selected variables
+ggpairs(vehicle_data, columns = c("year", "km_driven", "ex_showroom_price", "selling_price"))
+
 
