@@ -110,4 +110,19 @@ print(cor_matrix)
 cov_matrix <- cov(vehicle_data %>% select(year, km_driven, ex_showroom_price, selling_price), use = "complete.obs")
 print(cov_matrix)
 
+## ANOVA test for selling price across different seller types
+anova_seller_type <- aov(selling_price ~ seller_type, data = vehicle_data)
+summary(anova_seller_type)
+
+# ANOVA test for selling price across different ownership categories
+anova_owner <- aov(selling_price ~ owner, data = vehicle_data)
+summary(anova_owner)
+
+# Perform Tukey's HSD post-hoc test if ANOVA is significant
+tukey_seller_type <- TukeyHSD(anova_seller_type)
+print(tukey_seller_type)
+
+tukey_owner <- TukeyHSD(anova_owner)
+print(tukey_owner)
+
 
